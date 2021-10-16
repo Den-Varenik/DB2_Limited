@@ -1,4 +1,6 @@
 from pathlib import Path
+
+import django_heroku
 import environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -8,7 +10,7 @@ env = environ.Env(
     DJANGO_DEBUG=(bool, False),
     DJANGO_SECRET_KEY=(str, "CHANGEME!!!o!r%emd^l=aci4%pnvf8oj4qr(z%qttx2teg!uwts#vuibwl^y"),
     DJANGO_ALLOWED_HOSTS=(list, ['*']),
-    DJANGO_DATABASE_URL=(str, "postgres://USER:PASSWORD@HOST:PORT/database")
+    DATABASE_URL=(str, "postgres://USER:PASSWORD@HOST:PORT/database")
 )
 environ.Env.read_env(env_file=str(BASE_DIR / '.env'))
 
@@ -70,7 +72,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 
 DATABASES = {
-    'default': env.db('DJANGO_DATABASE_URL')
+    'default': env.db('DATABASE_URL')
 }
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -101,3 +103,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+django_heroku.settings(locals())
