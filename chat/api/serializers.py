@@ -2,13 +2,22 @@ from re import match
 
 from rest_framework import serializers
 
-from chat.models import Message
+from chat.models import Message, Chat
+
+
+class ChatSerializer(serializers.ModelSerializer):
+    created = serializers.DateTimeField(read_only=True)
+    updated = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = Chat
+        fields = "__all__"
 
 
 class MessageSerializer(serializers.ModelSerializer):
     author = serializers.StringRelatedField(read_only=True)
     ip = serializers.IPAddressField(read_only=True)
-    chat = serializers.SlugRelatedField(read_only=True, slug_field="title")
+    chat = ChatSerializer(read_only=True)
     created = serializers.DateTimeField(read_only=True)
     updated = serializers.DateTimeField(read_only=True)
 

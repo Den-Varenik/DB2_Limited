@@ -1,9 +1,13 @@
 from django.conf.urls import url
 
-from chat.api.views import MessageListView, MessageCreateView, MessageDetailView
+from chat.api import views
 
 urlpatterns = [
-    url(r'^(?P<chat_slug>.+)/messages/list/(?P<paginate>\d+)/$', MessageListView.as_view(), name='message-list'),
-    url(r'^(?P<chat_slug>.+)/messages/create/$', MessageCreateView.as_view(), name='message-create'),
-    url(r'^(?P<chat_slug>.+)/messages/single/(?P<pk>\d+)/$', MessageDetailView.as_view(), name='message-detail'),
+    # url(r'^list/$', views.ChatListView.as_view(), name="chat-list"),
+    # url(r'^(?P<slug>.+)/$', views.ChatDetailView.as_view(), name="chat-detail"),
+    url(r'^messages/single/(?P<pk>\d+)/$', views.MessageDetailView.as_view(), name='message-detail'),
+    url(r'^(?P<chat_slug>.+)/messages/list/(?P<paginate>\d+)/$', views.MessageListView.as_view(), name='message-list'),
+    url(r'^(?P<chat_slug>.+)/messages/create/$', views.MessageCreateView.as_view(), name='message-create'),
+    url(r'^list/$', views.ChatListView.as_view(), name="chat-list"),
+    url(r'^(?P<slug>.+)/$', views.ChatDetailView.as_view(), name="chat-detail"),
 ]

@@ -1,6 +1,6 @@
 from rest_framework import generics
 
-from chat.api.serializers import MessageSerializer
+from chat.api.serializers import MessageSerializer, ChatSerializer
 from chat.models import Chat, Message
 
 
@@ -32,3 +32,14 @@ class MessageCreateView(generics.CreateAPIView):
 class MessageDetailView(generics.RetrieveAPIView):
     queryset = Message.objects.all()
     serializer_class = MessageSerializer
+
+
+class ChatListView(generics.ListAPIView):
+    queryset = Chat.objects.all()
+    serializer_class = ChatSerializer
+
+
+class ChatDetailView(generics.RetrieveAPIView):
+    queryset = Chat.objects.all()
+    serializer_class = ChatSerializer
+    lookup_field = "slug"
