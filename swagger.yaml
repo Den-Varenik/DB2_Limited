@@ -5,14 +5,52 @@ info:
   title: "DB2 Limited"
   contact:
     email: "varenik.denisua@gmail.com"
-host: "127.0.0.1"
+host: "127.0.0.1:8000"
 basePath: "/api"
 schemes:
-- "https"
 - "http"
 paths:
-          
-  /message/single/{pk}:
+
+  /chat/list:
+    get:
+      tags:
+      - "chat"
+      summary: "Get chats list"
+      description: "Get chats"
+      operationId: "ChatListView"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Chat"
+  /chat/{slug}:
+    get:
+      tags:
+      - "chat"
+      summary: "Get chat"
+      description: "Get chat by slug"
+      operationId: "ChatDetailView"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "slug"
+        in: "path"
+        description: "Chat slug"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Chat"
+        "404":
+          description: "Chat not found"
+
+  /chat/messages/single/{pk}:
     get:
       tags:
       - "message"
@@ -35,7 +73,7 @@ paths:
             $ref: "#/definitions/Message"
         "404":
           description: "Message not found"
-  /chat/{chat_slug}/message/create:
+  /chat/{chat_slug}/messages/create:
     post:
       tags:
       - message
@@ -71,7 +109,7 @@ paths:
             $ref: "#/definitions/Message"
         "405":
           description: "Invalid input"
-  /chat/{chat_slug}/message/list/{paginate}:
+  /chat/{chat_slug}/messages/list/{paginate}:
     get:
       tags:
       - "message"
@@ -99,8 +137,6 @@ paths:
             type: "array"
             items:
               $ref: "#/definitions/Message"
-        "404":
-          description: "Message not found"
 
 definitions:
   Chat:
