@@ -5,4 +5,5 @@ from django.contrib import admin
 urlpatterns = [
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, admin.site.urls),
+    url(r'^api/chat/', include('chat.api.urls'))
 ]

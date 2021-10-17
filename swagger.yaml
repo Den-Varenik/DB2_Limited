@@ -1,0 +1,186 @@
+swagger: "2.0"
+info:
+  description: "Simple description"
+  version: "1.0.0"
+  title: "DB2 Limited"
+  contact:
+    email: "varenik.denisua@gmail.com"
+host: "127.0.0.1:8000"
+basePath: "/api"
+schemes:
+- "http"
+paths:
+
+  /chat/list:
+    get:
+      tags:
+      - "chat"
+      summary: "Get chats list"
+      description: "Get chats"
+      operationId: "ChatListView"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Chat"
+  /chat/{slug}:
+    get:
+      tags:
+      - "chat"
+      summary: "Get chat"
+      description: "Get chat by slug"
+      operationId: "ChatDetailView"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "slug"
+        in: "path"
+        description: "Chat slug"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Chat"
+        "404":
+          description: "Chat not found"
+
+  /chat/messages/single/{pk}:
+    get:
+      tags:
+      - "message"
+      summary: "Get a single message by pk"
+      description: "Return message by pk"
+      operationId: "MessageDetailView"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "pk"
+        in: "path"
+        description: "Primary key of message"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Message"
+        "404":
+          description: "Message not found"
+  /chat/{chat_slug}/messages/create:
+    post:
+      tags:
+      - message
+      summary: "Create message"
+      description: "Create new message"
+      operationId: "MessageCreateView"
+      consumes:
+      - "application/x-www-form-urlencoded"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "chat_slug"
+        in: "path"
+        description: "Slug of chat"
+        required: true
+        type: "string"
+      - name: "email"
+        in: "formData"
+        description: "User email"
+        required: true
+        type: "string"
+        format: "email"
+      - name: "text"
+        in: "formData"
+        description: "User message"
+        required: true
+        type: "string"
+        format: "99"
+      responses:
+        "200":
+          description: "success operation"
+          schema:
+            $ref: "#/definitions/Message"
+        "405":
+          description: "Invalid input"
+  /chat/{chat_slug}/messages/list/{paginate}:
+    get:
+      tags:
+      - "message"
+      summary: "Get list of messages"
+      description: "Return 10 last messages"
+      operationId: "MessageListView"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "chat_slug"
+        in: "path"
+        description: "Slug of chat"
+        required: true
+        type: "string"
+      - name: "paginate"
+        in: "path"
+        description: "Number of page"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Message"
+
+definitions:
+  Chat:
+    type: "object"
+    required:
+    - "slug"
+    - "description"
+    - "public"
+    properties:
+      id:
+        type: integer
+      slug:
+        type: string
+      description:
+        type: string
+      public:
+        type: boolean
+      created:
+        type: string
+        format: date-time
+      updated:
+        type: string
+        format: date-time
+  Message:
+    type: "object"
+    required:
+    - "email"
+    - "text"
+    properties:
+      id:
+        type: integer
+      author:
+        type: string
+      ip:
+        type: string
+      email:
+        type: string
+      text:
+        type: string
+      chat:
+        $ref: "#/definitions/Chat"
+      created:
+        type: string
+        format: date-time  
+      updated:
+        type: string
+        format: date-time  
