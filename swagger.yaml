@@ -5,9 +5,10 @@ info:
   title: "DB2 Limited"
   contact:
     email: "varenik.denisua@gmail.com"
-host: "127.0.0.1:8000"
+host: "db2--limited.herokuapp.com"
 basePath: "/api"
 schemes:
+- "https"
 - "http"
 paths:
 
