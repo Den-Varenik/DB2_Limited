@@ -104,8 +104,8 @@ paths:
         type: "string"
         format: "99"
       responses:
-        "200":
-          description: "success operation"
+        "201":
+          description: "created"
           schema:
             $ref: "#/definitions/Message"
         "405":
